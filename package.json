@@ -1,0 +1,21 @@
+{
+  "name": "genxp",
+  "version": "1.0.0",
+  "description": "A express scaffolding project to create express projects with the best practices and industry standards.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "express",
+    "express",
+    "generator",
+    "express",
+    "project",
+    "express",
+    "project",
+    "generator"
+  ],
+  "author": "Anurag Srivastava",
+  "license": "ISC"
+}

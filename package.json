@@ -4,7 +4,11 @@
   "description": "A express scaffolding project to create express projects with the best practices and industry standards.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "npx tsc"
+  },
+  "repository": {
+    "url": "https://github.com/anuragmerndev/genxp",
+    "type": "git"
   },
   "keywords": [
     "express",
@@ -17,5 +21,12 @@
     "generator"
   ],
   "author": "Anurag Srivastava",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "commander": "^12.0.0"
+  },
+  "devDependencies": {
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
+  }
 }

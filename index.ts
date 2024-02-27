@@ -1,5 +1,6 @@
 import { Command } from 'commander';
 import packageJSON from './package.json';
+import { checkPackageManager } from './helpers/checkPackageManager';
 
 let projectDirectoryName: string = '';
 
@@ -46,5 +47,7 @@ const program: Command = new Command(packageJSON.name)
 
     const options = program.opts();
     console.log(options);
+    console.log(checkPackageManager());
+    
     
     

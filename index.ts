@@ -2,9 +2,10 @@ import { Command } from "commander";
 import inquirer from "inquirer";
 import path from "path";
 
-import packageJSON from "./package.json";
-import { checkPackageManager } from "./helpers/checkPackageManager";
-import { checkDirectoryExistsAndEmpty } from "./helpers/checkEmptyDirectory";
+import packageJSON from "./package.json" with {type: "json"};
+import { checkPackageManager } from "./helpers/checkPackageManager.js";
+import { checkDirectoryExistsAndEmpty } from "./helpers/checkEmptyDirectory.js";
+import { prefPrompts } from "./helpers/preferencePrompts.js";
 
 let projectDirectoryName: string = "";
 let resolvedPathName: string = "";
@@ -60,25 +61,33 @@ if (typeof projectDirectoryName === "string") {
 	projectDirectoryName = projectDirectoryName.trim();
 }
 
-(async () => {
-	if (!projectDirectoryName) {
-		const { projectDir } = await inquirer.prompt([{
-			type: "input",
-			name: "projectDir",
-			message: "Kindly provide the project directory name",
-		}]);
+if (!projectDirectoryName) {
+	const { projectDir } = await inquirer.prompt([{
+		type: "input",
+		name: "projectDir",
+		message: "Kindly provide the project directory name",
+	}]);
 
-		if (!(projectDir && typeof projectDir === "string")) {
-			console.log("Please specify the project directory:");
-			process.exit(1);
-		}
-		projectDirectoryName = projectDir;
+	if (!(projectDir && typeof projectDir === "string")) {
+		console.log("Please specify the project directory:");
+		process.exit(1);
 	}
+	projectDirectoryName = projectDir;
+}
 
-	resolvedPathName = path.resolve(projectDirectoryName);
-	projectBaseName = path.basename(projectDirectoryName);
-})();
+resolvedPathName = path.resolve(projectDirectoryName);
+projectBaseName = path.basename(projectDirectoryName);
 
-const checkIfDirectoryExists = checkDirectoryExistsAndEmpty(resolvedPathName);
+console.log({ projectBaseName, resolvedPathName }, process.cwd());
 
-console.log({ checkIfDirectoryExists });
+const checkIfDirectoryExists = await checkDirectoryExistsAndEmpty(resolvedPathName);
+
+if (checkIfDirectoryExists) {
+	console.log("Directory name conflict, directory is not empty !! Kindly provide another directory name");
+	process.exit(1);
+}
+
+const allPrompts = Object.values(prefPrompts);
+const answers = await inquirer.prompt(allPrompts);
+console.log(answers);
+

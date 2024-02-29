@@ -1,14 +1,21 @@
-import { lstatSync, existsSync } from "fs";
+import { lstatSync, existsSync, promises } from "fs";
 
-export const checkDirectoryExistsAndEmpty = (root: string): boolean => {
+export const checkDirectoryExistsAndEmpty = async (root: string): Promise<boolean> => {
 	try {
 		if (existsSync(root)) {
-			if (lstatSync(root).isDirectory()) {
-				throw new Error("Directory name conflict ! Kindly provide another folder name");
+			const emptyDir = await isDirEmpty(root);
+			if (lstatSync(root).isDirectory() && !emptyDir) {
+				return true;
 			}
 		}
-		return true;
-	} catch (error) {
 		return false;
+	} catch (error) {
+		return true;
 	}
 };
+
+
+async function isDirEmpty(root: string) {
+	const files = await promises.readdir(root);
+	return files.length === 0;
+}

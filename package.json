@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "A express scaffolding project to create express projects with the best practices and industry standards.",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "build": "npx tsc"
   },

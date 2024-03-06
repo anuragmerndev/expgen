@@ -1,4 +1,4 @@
-import { Command } from "commander";
+import { Command, OptionValues } from "commander";
 import inquirer from "inquirer";
 import path from "path";
 
@@ -6,6 +6,7 @@ import packageJSON from "./package.json" with {type: "json"};
 import { checkPackageManager } from "./helpers/checkPackageManager.js";
 import { checkDirectoryExistsAndEmpty } from "./helpers/checkEmptyDirectory.js";
 import { prefPrompts } from "./helpers/preferencePrompts.js";
+import { getUserPreference } from "./helpers/getUserPreference.js";
 
 let projectDirectoryName: string = "";
 let resolvedPathName: string = "";
@@ -23,10 +24,10 @@ const program: Command = new Command(packageJSON.name)
 	.option("-pnpm, --usePnpm", "Use pnpm as a package manager.")
 	.option("-ts, --typescript", "Implement typescript for the project.")
 	.option("-js, --javascript", "Implement javascript for the project.")
-	.option("-mvc", "Use MVC as a project architecture.")
-	.option("-ddd", "Use DDD as a project architecture.")
-	.option("-sql", "Use SQL as a database approach.")
-	.option("-nosql", "Use NoSQL as a database approach.")
+	.option("-mvc, --useMVC", "Use MVC as a project architecture.")
+	.option("-ddd, --useDDD", "Use DDD as a project architecture.")
+	.option("-sql, --useSQL", "Use SQL as a database approach.")
+	.option("-nosql, --useNoSQL", "Use NoSQL as a database approach.")
 	.option("-pm, --postman", "Use postman for the api documentation.")
 	.option("-sw, --swagger", "Use swagger for the api documentation.")
 	.option("-rs, --useRest", "Use rest for the communication.")
@@ -36,9 +37,9 @@ const program: Command = new Command(packageJSON.name)
 	.option("-ess, --esStandard", "Implement standard eslint configuration.")
 	.option("-jest, --useJest", "Implement jest as testing framework.")
 	.option("-mocha, --useMocha", "Implement mocha as testing framework.")
-	.option("-exVal", "Implement express validator for validating api requests.")
-	.option("-zod", "Implement Zod for validating api requests.")
-	.option("-joi", "Implement Joi for validating api requests.")
+	.option("-exVal, --useExVal", "Implement express validator for validating api requests.")
+	.option("-zod,--useZod", "Implement Zod for validating api requests.")
+	.option("-joi, --useJoi", "Implement Joi for validating api requests.")
 	.option("-wn, --winston", "Implement Winston as a logger mechanism of the application.")
 	.option("-mn, --morgan", "Implement morgan as a logger mechanism of the application.")
 	.option("-dkr, --docker", "Implement docker on the project.")
@@ -49,13 +50,12 @@ const program: Command = new Command(packageJSON.name)
 	.option("-nc, --no-cors", "Will not implement cors in the project.")
 	.option("-nt, --no-test", "Will not initiate testing in the project.")
 	.option("-nd, --no-docs", "Will not initiate api documentation in the project.")
-	.option("-nv, --no-val", "Will not implement validator documentation in the project.")
+	.option("-nv, --no-val", "Will not implement validator in the project.")
+	.option("-ndb, --no-db", "Will not implement database in the project.")
+	.option("-nl, --no-log", "Will not implement logger in the project.")
+	.option("-ndc, --no-docker", "Will not implement docker in the project.")
 	.parse(process.argv);
 
-const options = program.opts();
-
-console.log(options);
-console.log(checkPackageManager());
 
 if (typeof projectDirectoryName === "string") {
 	projectDirectoryName = projectDirectoryName.trim();
@@ -78,8 +78,6 @@ if (!projectDirectoryName) {
 resolvedPathName = path.resolve(projectDirectoryName);
 projectBaseName = path.basename(projectDirectoryName);
 
-console.log({ projectBaseName, resolvedPathName }, process.cwd());
-
 const checkIfDirectoryExists = await checkDirectoryExistsAndEmpty(resolvedPathName);
 
 if (checkIfDirectoryExists) {
@@ -87,7 +85,9 @@ if (checkIfDirectoryExists) {
 	process.exit(1);
 }
 
-const allPrompts = Object.values(prefPrompts);
-const answers = await inquirer.prompt(allPrompts);
-console.log(answers);
 
+const options: OptionValues = program.opts();
+
+
+const userPref = await getUserPreference(options);
+console.log({ userPref });

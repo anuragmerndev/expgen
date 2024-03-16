@@ -14,32 +14,30 @@ let projectBaseName: string = "";
 
 const program: Command = new Command(packageJSON.name)
 	.version(packageJSON.version)
-	.argument("<project-directory>")
+	.argument("[project-directory]")
 	.usage("<project-directory> [options]")
 	.action((name) => {
 		projectDirectoryName = name;
 	})
-	.option("-npm, --useNpm", "Use npm as a package manager.")
-	.option("-yarn, --useYarn", "Use yarn as a package manager.")
-	.option("-pnpm, --usePnpm", "Use pnpm as a package manager.")
+	.option("-npm, --usenpm", "Use npm as a package manager.")
+	.option("-yarn, --useyarn", "Use yarn as a package manager.")
+	.option("-pnpm, --usepnpm", "Use pnpm as a package manager.")
 	.option("-ts, --typescript", "Implement typescript for the project.")
-	.option("-js, --javascript", "Implement javascript for the project.")
-	.option("-mvc, --useMVC", "Use MVC as a project architecture.")
-	.option("-ddd, --useDDD", "Use DDD as a project architecture.")
-	.option("-sql, --useSQL", "Use SQL as a database approach.")
-	.option("-nosql, --useNoSQL", "Use NoSQL as a database approach.")
+	.option("-mvc, --usemvc", "Use MVC as a project architecture.")
+	.option("-ddd, --useddd", "Use DDD as a project architecture.")
+	.option("-sql, --usesql", "Use SQL as a database approach.")
+	.option("-nosql, --usenosql", "Use NoSQL as a database approach.")
 	.option("-pm, --postman", "Use postman for the api documentation.")
 	.option("-sw, --swagger", "Use swagger for the api documentation.")
-	.option("-rs, --useRest", "Use rest for the communication.")
-	.option("-gql, --useGraphql", "Use graphql for the communication.")
-	.option("-esg, --esGoogle", "Implement google eslint configuration.")
-	.option("-esa, --esAirbnb", "Implement airbnb eslint configuration.")
-	.option("-ess, --esStandard", "Implement standard eslint configuration.")
-	.option("-jest, --useJest", "Implement jest as testing framework.")
-	.option("-mocha, --useMocha", "Implement mocha as testing framework.")
-	.option("-exVal, --useExVal", "Implement express validator for validating api requests.")
-	.option("-zod,--useZod", "Implement Zod for validating api requests.")
-	.option("-joi, --useJoi", "Implement Joi for validating api requests.")
+	.option("-gql, --graphql", "Use graphql for the communication.")
+	.option("-esg, --esgoogle", "Implement google eslint configuration.")
+	.option("-esa, --esairbnb", "Implement airbnb eslint configuration.")
+	.option("-ess, --esstandard", "Implement standard eslint configuration.")
+	.option("-jest, --usejest", "Implement jest as testing framework.")
+	.option("-mocha, --usemocha", "Implement mocha as testing framework.")
+	.option("-exVal, --useexval", "Implement express validator for validating api requests.")
+	.option("-zod,--usezod", "Implement Zod for validating api requests.")
+	.option("-joi, --usejoi", "Implement Joi for validating api requests.")
 	.option("-wn, --winston", "Implement Winston as a logger mechanism of the application.")
 	.option("-mn, --morgan", "Implement morgan as a logger mechanism of the application.")
 	.option("-dkr, --docker", "Implement docker on the project.")
@@ -66,6 +64,7 @@ if (!projectDirectoryName) {
 		type: "input",
 		name: "projectDir",
 		message: "Kindly provide the project directory name",
+		default: 'genxp-project'
 	}]);
 
 	if (!(projectDir && typeof projectDir === "string")) {
@@ -87,7 +86,6 @@ if (checkIfDirectoryExists) {
 
 
 const options: OptionValues = program.opts();
-
 
 const userPref = await getUserPreference(options);
 console.log({ userPref });

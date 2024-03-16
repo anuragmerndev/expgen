@@ -5,15 +5,14 @@ export const prefPrompts = {
         choices: ["npm", "yarn", "pnpm"],
         message: 'Which package manager would you like to use ?'
     },
-    scriptType: {
-        type: 'list',
-        name: 'scriptType',
-        choices: ["js", "ts"],
+    typescript: {
+        type: 'confirm',
+        name: 'typescript',
         message: 'Do you want to use TypeScript ?'
     },
     arch: {
         type: "list",
-        name: 'arch',
+        name: 'architecture',
         choices: ["mvc", "ddd"],
         message: 'Which project achitecture do you prefer ?'
     },
@@ -24,14 +23,13 @@ export const prefPrompts = {
         message: 'Which database model do you prefer ?'
     },
     api: {
-        type: 'list',
-        name: 'api',
-        choices: ['rest', 'graphql'],
-        message: 'Which API architecture would you like to use ?'
+        type: 'confirm',
+        name: 'graphql',
+        message: 'Would you like to use graphql ?'
     },
     docs: {
         type: 'list',
-        name: 'doc',
+        name: 'docs',
         choices: ['postman', 'swagger', 'none'],
         message: 'Do you want to document apis ?'
     },
@@ -39,7 +37,12 @@ export const prefPrompts = {
         type: 'list',
         name: 'eslint',
         choices: ['google', 'airbnb', 'standard', 'none'],
-        message: 'which linter style would you prefer ?'
+        message: 'which eslint style would you prefer ?'
+    },
+    prettier: {
+        type: 'confirm',
+        name: 'prettier',
+        message: 'Do you want to implement prettier in your project ?',
     },
     test: {
         type: 'list',
@@ -59,33 +62,115 @@ export const prefPrompts = {
         choices: ['express-validator', 'zod', 'joi', 'none'],
         message: 'which validator would you like to have ?'
     },
-    prettier: {
-        type: 'list',
-        name: 'pre',
-        choices: ["yes", "no"],
-        message: 'Do you want to implement prettier in your project ?',
+    hooks: {
+        type: 'confirm',
+        name: 'hooks',
+        message: 'Would you like to use github hooks to your project ?'
     },
     docker: {
-        type: 'list',
+        type: 'confirm',
         name: 'docker',
-        choices: ["yes", "no"],
         message: 'Do you want to integrate docker in your project ?'
     },
 }
 
-export const prefOptions = {
-    scriptType: ["scriptType", "typescript", "javascript"],
-    architecture: ["arch", "useMVC", "useDDD"],
-    database: ["db", "useSQL", "useNoSQL"],
-    apiType: ["api", "useRest", "useGraphql"],
-    testFramework: ["test", "useJest", "useMocha", "useExVal"],
-    validator: ["val", "useExVal", "useZod", "useJoi"],
-    logger: ["log", "winston", "morgan"],
-    apiDocs: ["docs", "postman", "swagger"],
-    docker: ["docker"],
-    eslint: ["eslint", "esGoogle", "esAirbnb", "esStandard"],
-    prettier: ["prettier"],
-    hooks: ["hooks"],
-    git: ["git"],
-    cors: ["cors"],
+export interface userPrefType {
+    [key: string]: {
+        options: {
+            [key: string]: string
+        },
+        defaultKey: string | boolean
+    }
 }
+
+export const prefOptions: userPrefType = {
+    packageManager: {
+        options: {
+            usenpm: "npm",
+            useyarn: "yarn",
+            usepnpm: "pnpm",
+        },
+        defaultKey: false
+    },
+    typescript: {
+        options: {
+            typescript: "typescript"
+        },
+        defaultKey: false
+    },
+    architecture: {
+        options: {
+            usemvc: "mvc",
+            useddd: "ddd",
+        },
+        defaultKey: false
+    },
+    database: {
+        options: {
+            usesql: "sql",
+            usenosql: "nosql"
+        },
+        defaultKey: "db"
+    },
+    apidocs: {
+        options: {
+            postman: "postman",
+            swagger: "swagger"
+        },
+        defaultKey: "docs"
+    },
+    eslint: {
+        options: {
+            esgoogle: "google",
+            esairbnb: "airbnb",
+            esstandard: "standard",
+        },
+        defaultKey: "eslint"
+    },
+    testing: {
+        options: {
+            usejest: "jest",
+            usemocha: "mocha",
+        },
+        defaultKey: "test"
+    },
+    validator: {
+        options: {
+            useexval: "expressVal",
+            usezod: "zod",
+            usejoi: "joi",
+        },
+        defaultKey: "val"
+    },
+    logger: {
+        options: {
+            winston: "winston",
+            morgan: "morgan",
+        },
+        defaultKey: "log"
+    },
+    prettier: {
+        options: {
+            prettier: "prettier"
+        },
+        defaultKey: false
+    },
+    hooks: {
+        options: {
+            hooks: "hooks"
+        },
+        defaultKey: false
+    },
+    graphql: {
+        options: {
+            graphql: "graphql"
+        },
+        defaultKey: false
+    },
+    docker: {
+        options: {
+            docker: "docker"
+        },
+        defaultKey: false
+    },
+};

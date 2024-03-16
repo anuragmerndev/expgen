@@ -1,54 +1,91 @@
 import { OptionValues } from "commander";
-import { prefOptions, prefPrompts } from "./preferencePrompts.js";
+import { prefOptions, prefPrompts, userPrefType } from "./preferencePrompts.js";
 import inquirer from "inquirer";
 
 async function getUserPreference(options: OptionValues) {
     const getPreference = [];
-    if (!options.useNpm && !options.useYarn && !options.usePnpm) {
+
+    if (!options.usenpm && !options.useyarn && !options.usepnpm) {
         getPreference.push(prefPrompts.packageManager);
     }
-    if (!options.typescript && !options.javascript) {
-        getPreference.push(prefPrompts.scriptType);
+    if (!options.typescript) {
+        getPreference.push(prefPrompts.typescript);
     }
 
-    if (!options.useMVC && !options.useDDD) {
+    if (!options.usemvc && !options.useddd) {
         getPreference.push(prefPrompts.arch);
     }
 
-    if (!options.useSQL && !options.useNoSQL && !options['no-db']) {
+    if (!options.usesql && !options.usenosql && options['db']) {
         getPreference.push(prefPrompts.db);
     }
-    if (!options.postman && !options.swagger && options['no-docs']) {
+
+    if (!options.postman && !options.swagger && options['docs']) {
         getPreference.push(prefPrompts.docs);
     }
-    if (!options.esGoogle && !options.esAirbnb && !options.esStandard && !options['no-eslint']) {
+
+    if (!options.esgoogle && !options.esairbnb && !options.esstandard && options['eslint']) {
         getPreference.push(prefPrompts.eslint);
     }
-    if (!options.useRest && !options.useGraphql) {
+
+    if (!options.usegraphql) {
         getPreference.push(prefPrompts.api);
     }
-    if (!options.useJest && !options.useMocha && !options['no-test']) {
+
+    if (!options.usejest && !options.usemocha && options['test']) {
         getPreference.push(prefPrompts.test);
     }
-    if (!options.useExVal && !options.useZod && !options.useJoi && !options['no-val']) {
+
+    if (!options.useexval && !options.usezod && !options.usejoi && options['val']) {
         getPreference.push(prefPrompts.val);
     }
-    if (!options.winston && !options.morgan && !options['no-log']) {
+
+    if (!options.winston && !options.morgan && options['log']) {
         getPreference.push(prefPrompts.log);
     }
-    if (!options.docker && !options['no-doc']) {
+
+    if (!options.docker && !options['docker']) {
         getPreference.push(prefPrompts.docker);
     }
 
-    console.log(Object.keys(prefPrompts));
-    
-    const userpreference = await inquirer.prompt(getPreference);
-    const userPrefRough = { ...userpreference, ...options };
-
-    const userPreferenceFormatted = {};
-    for (let i = 0; i < Object.keys(userPrefRough).length; i++) {
-        const element = Object.keys(userPrefRough)[i];
+    if (options['hooks']) {
+        getPreference.push(prefPrompts.hooks)
     }
+
+    const userpreference = await inquirer.prompt(getPreference);
+    const userPrefRough: object = { ...options, ...userpreference };
+
+    const prefOptionPref = Object.keys(prefOptions);
+
+    const finalFomat: any = {};
+
+    prefOptionPref.forEach((prefKey) => {
+        finalFomat[prefKey] = formatPreference(userPrefRough, prefOptions, prefKey)
+    });
+
+    return finalFomat;
+}
+
+function formatPreference(options: any, userPref: userPrefType, prefKeyName: string) {
+
+    let finalPref;
+
+    if (options[userPref[prefKeyName].defaultKey as string] === false || options[userPref[prefKeyName].defaultKey as string] === "none") {
+        return finalPref = false
+    }
+
+    for (const [key, value] of Object.entries(options)) {
+        if (key === prefKeyName || key === userPref[prefKeyName].defaultKey as string) {
+            return finalPref = value;
+        }
+
+        for (const [prefKey, prefValue] of Object.entries(userPref[prefKeyName].options)) {
+            if (key === prefKey) {
+                return finalPref = prefValue;
+            }
+        }
+    }
+    return finalPref;
 }
 
 export { getUserPreference }

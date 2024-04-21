@@ -1,50 +1,39 @@
 import { OptionValues } from "commander";
-import { prefOptions, prefPrompts, userPrefType } from "./preferencePrompts.js";
+import { prefPrompts } from "./preferencePrompts.js";
 import inquirer from "inquirer";
+
+export interface StructureOptions extends OptionValues {
+    eslint: boolean,
+    hooks: boolean,
+    git: boolean,
+    cors: boolean,
+    test: boolean,
+    docker: boolean,
+    db: 'sql' | 'nosql',
+    val: boolean,
+    log: boolean,
+}
 
 async function getUserPreference(options: OptionValues) {
     const getPreference = [];
 
-    if (!options.usenpm && !options.useyarn && !options.usepnpm) {
-        getPreference.push(prefPrompts.packageManager);
-    }
-    if (!options.typescript) {
-        getPreference.push(prefPrompts.typescript);
-    }
-
-    if (!options.usemvc && !options.useddd) {
-        getPreference.push(prefPrompts.arch);
-    }
-
-    if (!options.usesql && !options.usenosql && options['db']) {
+    if (!options.usesql && !options.usenosql) {
         getPreference.push(prefPrompts.db);
     }
 
-    if (!options.postman && !options.swagger && options['docs']) {
-        getPreference.push(prefPrompts.docs);
-    }
-
-    if (!options.esgoogle && !options.esairbnb && !options.esstandard && options['eslint']) {
+    if (options['eslint']) {
         getPreference.push(prefPrompts.eslint);
     }
 
-    if (!options.usegraphql) {
-        getPreference.push(prefPrompts.api);
-    }
-
-    if (!options.usejest && !options.usemocha && options['test']) {
-        getPreference.push(prefPrompts.test);
-    }
-
-    if (!options.useexval && !options.usezod && !options.usejoi && options['val']) {
+    if (!options.hasOwnProperty('val')) {
         getPreference.push(prefPrompts.val);
     }
 
-    if (!options.winston && !options.morgan && options['log']) {
+    if (!options.hasOwnProperty('log')) {
         getPreference.push(prefPrompts.log);
     }
 
-    if (!options.docker && !options['docker']) {
+    if (options['docker']) {
         getPreference.push(prefPrompts.docker);
     }
 
@@ -52,40 +41,21 @@ async function getUserPreference(options: OptionValues) {
         getPreference.push(prefPrompts.hooks)
     }
 
+
     const userpreference = await inquirer.prompt(getPreference);
-    const userPrefRough: object = { ...options, ...userpreference };
+    const userPrefData: StructureOptions = { ...options, ...userpreference };
 
-    const prefOptionPref = Object.keys(prefOptions);
-
-    const finalFomat: any = {};
-
-    prefOptionPref.forEach((prefKey) => {
-        finalFomat[prefKey] = formatPreference(userPrefRough, prefOptions, prefKey)
-    });
-
-    return finalFomat;
-}
-
-function formatPreference(options: any, userPref: userPrefType, prefKeyName: string) {
-
-    let finalPref;
-
-    if (options[userPref[prefKeyName].defaultKey as string] === false || options[userPref[prefKeyName].defaultKey as string] === "none") {
-        return finalPref = false
+    if (userPrefData["usesql"]) {
+        userPrefData['db'] = 'sql';
+        delete userPrefData["usesql"];
     }
 
-    for (const [key, value] of Object.entries(options)) {
-        if (key === prefKeyName || key === userPref[prefKeyName].defaultKey as string) {
-            return finalPref = value;
-        }
-
-        for (const [prefKey, prefValue] of Object.entries(userPref[prefKeyName].options)) {
-            if (key === prefKey) {
-                return finalPref = prefValue;
-            }
-        }
+    if (userPrefData["usenosql"]) {
+        userPrefData['db'] = 'nosql';
+        delete userPrefData["usenosql"];
     }
-    return finalPref;
+
+    return userPrefData;
 }
 
 export { getUserPreference }

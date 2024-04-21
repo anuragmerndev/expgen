@@ -1,4 +1,4 @@
-import { lstatSync, existsSync, promises } from "fs";
+import { lstatSync, existsSync, promises, readdirSync } from "fs";
 
 export const checkDirectoryExistsAndEmpty = async (root: string): Promise<boolean> => {
 	try {
@@ -18,4 +18,4 @@ export const checkDirectoryExistsAndEmpty = async (root: string): Promise<boolea
 async function isDirEmpty(root: string) {
 	const files = await promises.readdir(root);
 	return files.length === 0;
-}
+};

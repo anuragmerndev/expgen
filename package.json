@@ -1,15 +1,15 @@
 {
   "name": "genxp",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A express scaffolding project to create express projects with the best practices and industry standards.",
   "main": "index.js",
+  "bin": {
+    "genxp": "./dist/index.js"
+  },
+  "files": ["dist"],
   "type": "module",
   "scripts": {
-    "build": "npx tsc"
-  },
-  "repository": {
-    "url": "https://github.com/anuragmerndev/genxp",
-    "type": "git"
+    "build": "npx tsc && node copyTemplate.js"
   },
   "keywords": [
     "express",
@@ -25,10 +25,16 @@
   "license": "ISC",
   "dependencies": {
     "commander": "^12.0.0",
-    "inquirer": "^8.2.6"
+    "fs-extra": "^11.2.0",
+    "inquirer": "^8.2.6",
+    "latest-version": "^9.0.0",
+    "package-json": "^10.0.0",
+    "validate-npm-package-name": "^5.0.0"
   },
   "devDependencies": {
+    "@types/fs-extra": "^11.0.4",
     "@types/inquirer": "^9.0.7",
+    "@types/validate-npm-package-name": "^4.0.2",
     "@typescript-eslint/eslint-plugin": "^7.1.0",
     "@typescript-eslint/parser": "^7.1.0",
     "eslint": "^8.57.0",

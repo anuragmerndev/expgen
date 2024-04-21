@@ -1,0 +1,11 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+echo "[Husky] Running Prettier..."
+npm run format
+
+echo "[Husky] Running lint..."
+npm run lint
+
+echo "[Husky] Running build..."
+npm run build

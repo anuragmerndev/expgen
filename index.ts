@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 import { Command, OptionValues } from "commander";
 import inquirer from "inquirer";
 import path from "node:path";

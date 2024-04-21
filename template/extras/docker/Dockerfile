@@ -8,6 +8,6 @@ RUN npm ci
 
 COPY . .
 
-EXPOSE 8083 8084
+EXPOSE 8080
 
 CMD [ "npm", "run", "start:dev" ]

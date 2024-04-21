@@ -2,5 +2,5 @@
 . "$(dirname -- "$0")/_/husky.sh"
 
 echo "[Husky] Running commit lint..."
-npm run @commitlint/cli
+npm run lint:commit
 

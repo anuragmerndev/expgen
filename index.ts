@@ -45,7 +45,7 @@ if (!projectDirectoryName) {
 		type: "input",
 		name: "projectDir",
 		message: "Kindly provide the project directory name",
-		default: 'genxp-project'
+		default: 'zenxp-project'
 	}]);
 
 	if (!(projectDir && typeof projectDir === "string")) {

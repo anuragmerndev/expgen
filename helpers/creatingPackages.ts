@@ -107,7 +107,7 @@ export const creatingPackages = async (userPref: StructureOptions, projectRoot: 
     }
 }
 
-export const creatingEslint = async (userPref: StructureOptions, projectRoot: string,) => {
+const creatingEslint = async (userPref: StructureOptions, projectRoot: string,) => {
     try {
         const eslintOption = {
             "parser": "@typescript-eslint/parser",

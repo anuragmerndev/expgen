@@ -1,12 +1,14 @@
 {
-  "name": "genxp",
+  "name": "@zenxp/generate",
   "version": "1.0.4",
   "description": "A express scaffolding project to create express projects with the best practices and industry standards.",
   "main": "index.js",
   "bin": {
-    "genxp": "./dist/index.js"
+    "create-zenxp": "./dist/index.js"
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "type": "module",
   "scripts": {
     "build": "npx tsc && node copyTemplate.js"
@@ -28,7 +30,6 @@
     "fs-extra": "^11.2.0",
     "inquirer": "^8.2.6",
     "latest-version": "^9.0.0",
-    "package-json": "^10.0.0",
     "validate-npm-package-name": "^5.0.0"
   },
   "devDependencies": {

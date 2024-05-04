@@ -11,7 +11,7 @@ const appLogFormat = printf(({ level, message, label, timestamp }) => {
 
 const logger = createLogger({
     format: combine(
-        label({ label: 'zenxp' }),
+        label({ label: 'zenx' }),
         timestamp({ format: timestampFormat }),
         appLogFormat,
     ),

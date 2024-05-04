@@ -1,6 +1,5 @@
 import { writeFileSync } from 'fs';
 
-import latestVersion from 'latest-version';
 import { StructureOptions } from './getUserPreference.js';
 import { resolvePath } from './copyFileToDir.js';
 
@@ -15,23 +14,23 @@ export const creatingPackages = async (userPref: StructureOptions, projectRoot: 
                 "start:dev": "cross-env NODE_ENV=development tsx watch src/server.ts",
             },
             dependencies: {
-                express: (await latestVersion('express')),
-                winston: await latestVersion('winston'),
-                dotenv: await latestVersion('dotenv'),
-                "cross-env": await latestVersion("cross-env")
+                "express": "^4.19.2",
+                "winston": "^3.12.0",
+                "dotenv": "^16.4.5",
+                "cross-env": "^7.0.3"
             },
             devDependencies: {
-                "@types/express": await latestVersion('@types/express'),
-                "@types/node": await latestVersion('@types/node'),
-                "tsc-alias": await latestVersion("tsc-alias"),
-                "tsx": await latestVersion("tsx"),
-                "typescript": await latestVersion("typescript"),
+                "@types/express": "~4.17.13",
+                "@types/node": "~18.16.9",
+                "tsc-alias": "^1.8.8",
+                "tsx": "^4.7.1",
+                "typescript": "^5.3.2"
             }
         };
 
         if (userPref.cors) {
-            packageData.dependencies['cors'] = await latestVersion('cors');
-            packageData.devDependencies['@types/cors'] = await latestVersion('@types/cors');
+            packageData.dependencies['cors'] =  "^2.8.5";
+            packageData.devDependencies['@types/cors'] = "^2.8.17";
         }
 
         if (userPref.eslint) {
@@ -40,15 +39,15 @@ export const creatingPackages = async (userPref: StructureOptions, projectRoot: 
                 "@typescript-eslint/eslint-plugin": "^7.7.0",
                 "@typescript-eslint/parser": "^7.7.0",
                 "eslint": "^8.57.0",
-                "eslint-config-google": await latestVersion("eslint-config-google"),
-                "eslint-config-prettier": await latestVersion("eslint-config-prettier"),
-                "eslint-import-resolver-typescript": await latestVersion("eslint-import-resolver-typescript"),
-                "eslint-plugin-extra": await latestVersion("eslint-plugin-extra"),
-                "eslint-plugin-extra-rules": await latestVersion("eslint-plugin-extra-rules"),
-                "eslint-plugin-import": await latestVersion("eslint-plugin-import"),
-                "eslint-plugin-prettier": await latestVersion("eslint-plugin-prettier"),
-                "eslint-plugin-sonarjs": await latestVersion("eslint-plugin-sonarjs"),
-                "prettier": await latestVersion("prettier"),
+                "eslint-config-google": "^0.14.0",
+                "eslint-config-prettier": "^9.1.0",
+                "eslint-import-resolver-typescript": "^3.6.1",
+                "eslint-plugin-extra": "^0.1.0",
+                "eslint-plugin-extra-rules": "^0.0.0-development",
+                "eslint-plugin-import": "^2.29.1",
+                "eslint-plugin-prettier": "^5.1.3",
+                "eslint-plugin-sonarjs": "^0.24.0",
+                "prettier": "^3.2.5",
             };
 
             packageData.scripts = {
@@ -61,10 +60,10 @@ export const creatingPackages = async (userPref: StructureOptions, projectRoot: 
         if (userPref.hooks) {
             packageData.devDependencies = {
                 ...packageData.devDependencies,
-                "husky": await latestVersion("husky"),
-                "lint-staged": await latestVersion("lint-staged"),
-                "@commitlint/cli": await latestVersion("@commitlint/cli"),
-                "@commitlint/config-conventional": await latestVersion("@commitlint/config-conventional"),
+                "husky": "^9.0.11",
+                "lint-staged": "^15.2.2",
+                "@commitlint/cli": "^19.2.1",
+                "@commitlint/config-conventional": "^19.1.0",
             }
 
             packageData.scripts = {
@@ -82,17 +81,17 @@ export const creatingPackages = async (userPref: StructureOptions, projectRoot: 
         };
 
         if (userPref.db === 'sql') {
-            packageData.dependencies['prisma'] = await latestVersion('prisma');
+            packageData.dependencies['prisma'] = "5.13.0";
             packageData.scripts = {
                 ...packageData.scripts,
                 "start:prod": "cross-env NODE_ENV=production node dist/src/server.js",
                 "prisma:generate": "prisma generate",
-                "prisma:migrate": "prisma migrate",
+                "prisma:migrate": "prisma migrate dev",
             }
         }
 
         if (userPref.db === 'nosql') {
-            packageData.dependencies['mongoose'] = await latestVersion('mongoose');
+            packageData.dependencies['mongoose'] = "^8.2.2";
             packageData.scripts = {
                 ...packageData.scripts,
                 "start:prod": "cross-env NODE_ENV=production node dist/server.js",

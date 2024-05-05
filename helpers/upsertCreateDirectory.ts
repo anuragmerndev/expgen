@@ -6,7 +6,7 @@ export const upsertCreateDirectory = async (...projectPath: string[]): Promise<v
         const projectDir = resolvePath(...projectPath);
         if (!existsSync(projectDir)) {
             mkdirSync(projectDir);
-        }else {}
+        } else {}
         return;
     } catch (err) {
         console.log({ err });

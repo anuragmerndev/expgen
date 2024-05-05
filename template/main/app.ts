@@ -3,9 +3,9 @@ import express from 'express';
 
 import { errorHandler } from '@middlewares/globalErrorHandler';
 
-import { rootRouter } from '@routes/index';
-
 import { apiRequestLogger } from '@logger/logger';
+
+import { rootRouter } from '@routes/index';
 
 const app = express();
 

@@ -1,6 +1,6 @@
 {
   "name": "@zenx/generate",
-  "version": "1.0.4",
+  "version": "0.0.1",
   "description": "A express scaffolding project to create express projects with the best practices and industry standards.",
   "main": "index.js",
   "bin": {

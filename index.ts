@@ -6,12 +6,12 @@ import { fileURLToPath } from "node:url";
 import validateName from 'validate-npm-package-name';
 
 import packageJSON from "./package.json" with {type: "json"};
+
 import { checkDirectoryExistsAndEmpty } from "./helpers/checkEmptyDirectory.js";
 import { getUserPreference } from "./helpers/getUserPreference.js";
 import { createProjectTemplate } from "./helpers/createProjectTemplate.js";
 import { creatingPackages } from "./helpers/creatingPackages.js";
 import { upsertCreateDirectory } from "./helpers/upsertCreateDirectory.js";
-import { resolvePath } from "./helpers/copyFileToDir.js";
 
 let projectDirectoryName: string = "";
 let resolvedPathName: string = "";

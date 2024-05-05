@@ -1,6 +1,7 @@
 import { OptionValues } from "commander";
-import { prefPrompts } from "./preferencePrompts.js";
 import inquirer from "inquirer";
+
+import { prefPrompts } from "./preferencePrompts.js";
 
 export interface StructureOptions extends OptionValues {
     eslint: boolean,

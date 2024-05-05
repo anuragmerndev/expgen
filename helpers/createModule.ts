@@ -1,6 +1,6 @@
+import { readdirSync, lstatSync } from 'fs';
+
 import { copyFileToDir, resolvePath } from "./copyFileToDir.js";
-import { readdirSync } from 'fs';
-import { lstatSync } from 'fs';
 import { upsertCreateDirectory } from "./upsertCreateDirectory.js";
 
 export const createModule = (folder: string, dest: string) => {

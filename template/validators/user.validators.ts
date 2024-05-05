@@ -17,5 +17,5 @@ export {
     createUserType,
     createUserValidator,
     updateUserType,
-    updateUserValidator
+    updateUserValidator,
 };

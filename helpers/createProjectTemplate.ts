@@ -6,44 +6,49 @@ import { upsertCreateDirectory } from "./upsertCreateDirectory.js";
 import { copyFileToDir, resolvePath } from "./copyFileToDir.js";
 import { createModule } from "./createModule.js";
 import { StructureOptions } from "./getUserPreference.js";
+import { constantData } from './constants.js';
 
 export async function createProjectTemplate(currentDir: string, userPef: StructureOptions, projectDir: string): Promise<void> {
     try {
-        const fixedFolders = ['controllers', 'middlewares', 'routes', 'utils', 'validators', "logging"];
-        fixedFolders.forEach((folder) => {
-            fs.copySync(resolvePath(currentDir, 'template', folder), resolvePath(projectDir, 'src', folder))
+        constantData.fixedFolders.forEach((folder) => {
+            fs.copySync(resolvePath(currentDir, constantData.template, folder), resolvePath(projectDir, constantData.src, folder))
         })
-        createModule(resolvePath(currentDir, 'template', 'main'), resolvePath(projectDir, "src"));
+        createModule(resolvePath(currentDir, ...constantData.mainFolders), resolvePath(projectDir, constantData.src));
 
-        const variable = ['docker', 'eslint', 'hooks']
 
         for (const [key, value] of Object.entries(userPef)) {
-            if (value && variable.includes(key)) {
-                createModule(resolvePath(currentDir, 'template', "extras", key), resolvePath(projectDir))
+            if (value && constantData.variableFolders.includes(key)) {
+                createModule(resolvePath(currentDir, ...constantData.variableArgs, key), resolvePath(projectDir))
             }
         }
 
-        createModule(resolvePath(currentDir, 'template', "extras", 'root'), resolvePath(projectDir))
-        copyFileToDir(resolvePath(currentDir, 'template', "extras", 'gitignore'), resolvePath(projectDir, '.gitignore'))
+        createModule(resolvePath(currentDir, ...constantData.variableArgs, constantData.root), resolvePath(projectDir))
+        copyFileToDir(resolvePath(currentDir, ...constantData.variableArgs, constantData.gitignore), resolvePath(projectDir, `.${constantData.gitignore}`))
 
-        upsertCreateDirectory(resolvePath(projectDir, 'src', 'services'))
-        
-        if (userPef.db === 'sql') {
-            upsertCreateDirectory(resolvePath(projectDir, 'prisma'))
-            copyFileToDir(resolvePath(currentDir, 'template', "db", 'sql.ts'), resolvePath(projectDir, 'prisma', 'schema.prisma'))
-            copyFileToDir(resolvePath(currentDir, 'template', "db", 'db.ts'), resolvePath(projectDir, 'prisma', 'index.ts'))
-            
-            copyFileToDir(resolvePath(currentDir, 'template', "services", "sql", 'user.services.ts'), resolvePath(projectDir, 'src', "services", 'user.services.ts'))
+        upsertCreateDirectory(resolvePath(projectDir, constantData.src, constantData.services))
+
+        if (userPef.db === constantData.sql.db) {
+            upsertCreateDirectory(resolvePath(projectDir, ...constantData.sql.root))
+
+            for (let i = 0; i < constantData.sql.copyDir.length; i++) {
+                const element = constantData.sql.copyDir[i];
+                copyFileToDir(resolvePath(currentDir, ...element.source), resolvePath(projectDir, ...element.destination));
+
+            }
         }
-        
-        if (userPef.db === 'nosql') {
-            copyFileToDir(resolvePath(currentDir, 'template', "services", "nosql", 'user.services.ts'), resolvePath(projectDir, 'src', "services", 'user.services.ts'))
-            
-            upsertCreateDirectory(resolvePath(projectDir, 'src', 'config'))
-            copyFileToDir(resolvePath(currentDir, 'template', "db", 'nosql.ts'), resolvePath(projectDir, 'src', 'config', 'db.ts'))
 
-            fs.copySync(resolvePath(currentDir, 'template', 'models'), resolvePath(projectDir, 'src', 'models'))
-            fs.copySync(resolvePath(currentDir, 'template', 'types'), resolvePath(projectDir, 'src', 'types'))
+        if (userPef.db === constantData.nosql.db) {
+            upsertCreateDirectory(resolvePath(projectDir, ...constantData.nosql.root))
+
+            for (let i = 0; i < constantData.nosql.copyDir.length; i++) {
+                const element = constantData.nosql.copyDir[i];
+                copyFileToDir(resolvePath(currentDir, ...element.source), resolvePath(projectDir, ...element.destination));
+            }
+
+            for (let i = 0; i < constantData.nosql.copyFiles.length; i++) {
+                const element = constantData.nosql.copyFiles[i];
+                fs.copySync(resolvePath(currentDir, ...element.source), resolvePath(projectDir, ...element.destination))
+            }
         }
 
         if (userPef.git) {

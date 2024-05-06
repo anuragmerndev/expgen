@@ -9,11 +9,6 @@
   "files": [
     "dist"
   ],
-  "repository": {
-    "url": "https://github.com/anuragmerndev/expgen",
-    "type": "git"
-  },
-  "homepage": "https://github.com/anuragmerndev/expgen#readme",
   "type": "module",
   "scripts": {
     "build": "npx tsc && node copyTemplate.js"

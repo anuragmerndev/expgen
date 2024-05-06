@@ -87,6 +87,7 @@ export const creatingPackages = async (userPref: StructureOptions, projectRoot: 
                 "start:prod": "cross-env NODE_ENV=production node dist/src/server.js",
                 "prisma:generate": "prisma generate",
                 "prisma:migrate": "prisma migrate dev",
+                "prisma:studio": "prisma studio",
             }
         }
 

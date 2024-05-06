@@ -1,14 +1,19 @@
 {
-  "name": "@zenx/generate",
-  "version": "0.0.1",
+  "name": "@devsphere/expgen",
+  "version": "0.0.0",
   "description": "A express scaffolding project to create express projects with the best practices and industry standards.",
   "main": "index.js",
   "bin": {
-    "create-zenx": "./dist/index.js"
+    "expgen": "./dist/index.js"
   },
   "files": [
     "dist"
   ],
+  "repository": {
+    "url": "https://github.com/anuragmerndev/expgen",
+    "type": "git"
+  },
+  "homepage": "https://github.com/anuragmerndev/expgen#readme",
   "type": "module",
   "scripts": {
     "build": "npx tsc && node copyTemplate.js"
@@ -24,7 +29,7 @@
     "generator"
   ],
   "author": "Anurag Srivastava",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "commander": "^12.0.0",
     "fs-extra": "^11.2.0",

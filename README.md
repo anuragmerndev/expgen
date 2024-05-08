@@ -1,3 +1,5 @@
+![@devsphere/expgen - scaffolding express application under 1 sec](./public/expgen-banner.png)
+
 # @devsphere/expgen
 
 A npm package for Express which helps in scaffolding the application from scratch in less than a minute. The package is built for both SQL and NoSQL databases, following best practices in Node.js with TypeScript, including logging, multi-threading, GitHub hooks, and Dockerfile to make the project production-ready.

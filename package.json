@@ -1,6 +1,6 @@
 {
   "name": "@devsphere/expgen",
-  "version": "0.0.2",
+  "version": "1.0.0",
   "description": "A express scaffolding project to create express projects with the best practices and industry standards.",
   "main": "index.js",
   "bin": {

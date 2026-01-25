@@ -9,6 +9,7 @@ const responseMessage = {
     },
     OTHER: {
         SERVER_ERROR: 'Internal Server Error',
+        TOO_MANY_REQUESTS: 'Too many requests, please try again later',
     },
 };
 

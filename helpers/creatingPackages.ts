@@ -17,7 +17,9 @@ export const creatingPackages = async (userPref: StructureOptions, projectRoot: 
                 "express": "^4.19.2",
                 "winston": "^3.12.0",
                 "dotenv": "^16.4.5",
-                "cross-env": "^7.0.3"
+                "cross-env": "^7.0.3",
+                "helmet": "^7.1.0",
+                "express-rate-limit": "^7.2.0"
             },
             devDependencies: {
                 "@types/express": "~4.17.13",
